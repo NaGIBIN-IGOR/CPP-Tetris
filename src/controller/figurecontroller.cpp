@@ -1,6 +1,6 @@
 #include "figurecontroller.h"
 
-constexpr ModelConfig::CoordinateType startX{0}, startY{0};
+constexpr ModelConfig::CoordinateType startX{(ModelConfig::FIELD_WIDE-1)/2}, startY{0};
 
 FigureController::FigureController(){
     swapCurrentFigure();
@@ -37,6 +37,7 @@ void FigureController::turnEnd(Field &field)
 
 void FigureController::doCommand(Field &field, Commands command)
 {
+    lastCommand = command;
     switch (command)
     {
     case LEFT:

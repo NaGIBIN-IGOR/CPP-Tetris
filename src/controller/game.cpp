@@ -26,15 +26,22 @@ void Game::_start()
         while (std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::steady_clock::now() - start) <= waitDuration)
         {
             auto com{InputCommands::getCommand()};
-            if (com != NO_COMMAND)
+            if (com == NO_COMMAND)
             {
+                continue;
+            }
+            else if(com == DROP){
+                gameController.doCommand(com);
+                std::this_thread::sleep_for(std::chrono::milliseconds(150));
+                break;
+            }
+            else{
                 gameController.doCommand(com);
             }
             allRender();
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
         auto blocksRemoved = gameController.turnEnd();
-
         allRender();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

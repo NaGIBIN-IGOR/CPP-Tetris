@@ -12,7 +12,10 @@ class FigureController
 private:
     FigureGenerator figureGenerator{};
     FigureBase currentFigure;
+    Commands lastCommand{NO_COMMAND};
+
     void swapCurrentFigure();
+
 public:
     FigureController();
     bool turnStart(Field& field);

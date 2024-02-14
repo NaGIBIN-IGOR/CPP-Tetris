@@ -69,10 +69,10 @@ class IFigure: public FigureBase
 public:
     IFigure(){
         filler = I_FIGURE;
-        _figure[0] = Point(0,0);
-        _figure[1] = Point(0,1);
-        _figure[2] = Point(0,2);
-        _figure[3] = Point(0,3);
+        _figure[0] = Point(0,1);
+        _figure[1] = Point(1,1);
+        _figure[2] = Point(2,1);
+        _figure[3] = Point(3,1);
     }
 };
 
@@ -81,10 +81,10 @@ class LFigure: public FigureBase
 public:
     LFigure(){
         filler = L_FIGURE;
-        _figure[0] = Point(0,0);
-        _figure[1] = Point(0,1);
-        _figure[2] = Point(0,2);
-        _figure[3] = Point(1,0);
+        _figure[0] = Point(0,1);
+        _figure[1] = Point(1,1);
+        _figure[2] = Point(2,1);
+        _figure[3] = Point(0,2);
     }
 };
 
@@ -93,10 +93,10 @@ class JFigure: public FigureBase
 public:
     JFigure(){
         filler = J_FIGURE;
-        _figure[0] = Point(0,1);
-        _figure[1] = Point(0,2);
-        _figure[2] = Point(0,3);
-        _figure[3] = Point(1,3);
+        _figure[0] = Point(1,0);
+        _figure[1] = Point(1,1);
+        _figure[2] = Point(1,2);
+        _figure[3] = Point(2,2);
     }
 };
 
@@ -105,10 +105,10 @@ class OFigure: public FigureBase
 public:
     OFigure(){
         filler = O_FIGURE;
-        _figure[0] = Point(0,0);
-        _figure[1] = Point(0,1);
-        _figure[2] = Point(1,0);
-        _figure[3] = Point(1,1);
+        _figure[0] = Point(1,1);
+        _figure[1] = Point(1,2);
+        _figure[2] = Point(2,1);
+        _figure[3] = Point(2,2);
 
     }
     void rotateLeft() override{}
@@ -120,10 +120,10 @@ class TFigure: public FigureBase
 public:
     TFigure(){
         filler = T_FIGURE;
-        _figure[0] = Point(0,0);
-        _figure[1] = Point(0,1);
-        _figure[2] = Point(0,2);
-        _figure[3] = Point(1,1);
+        _figure[0] = Point(0,1);
+        _figure[1] = Point(1,1);
+        _figure[2] = Point(2,1);
+        _figure[3] = Point(1,2);
     }
 };
 
@@ -132,10 +132,10 @@ class SFigure: public FigureBase
 public:
     SFigure(){
         filler = S_FIGURE;
-        _figure[0] = Point(1,0);
-        _figure[1] = Point(1,1);
-        _figure[2] = Point(0,1);
-        _figure[3] = Point(0,2);
+        _figure[0] = Point(0,2);
+        _figure[1] = Point(1,2);
+        _figure[2] = Point(1,1);
+        _figure[3] = Point(2,1);
     }
 };
 
@@ -144,10 +144,10 @@ class ZFigure: public FigureBase
 public:
     ZFigure(){
         filler = Z_FIGURE;
-        _figure[0] = Point(0,0);
-        _figure[1] = Point(0,1);
-        _figure[2] = Point(1,1);
-        _figure[3] = Point(1,2);
+        _figure[0] = Point(0,1);
+        _figure[1] = Point(1,1);
+        _figure[2] = Point(1,2);
+        _figure[3] = Point(2,2);
     }
 };
 
