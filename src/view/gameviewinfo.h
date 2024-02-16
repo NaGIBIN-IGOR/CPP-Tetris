@@ -8,7 +8,7 @@
 struct GameViewInfo
 {
     const Field& field;
-    std::tuple<FigureBase, FigureBase, FigureBase> nextFigures;
+    std::array<FigureBase, 3> nextFigures;
     FigureBase currentFigure;
     unsigned score;
 };

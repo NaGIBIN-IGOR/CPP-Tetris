@@ -20,7 +20,7 @@ public:
     void doCommand(Commands command);
     Field& getField();
     FigureBase getCurrentFigure();
-    std::tuple<FigureBase, FigureBase, FigureBase> getNextFigures();
+    std::array<FigureBase, 3> getNextFigures();
 };
 
 #endif //GAME_CONTROLLER_H

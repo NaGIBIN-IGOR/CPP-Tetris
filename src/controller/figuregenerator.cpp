@@ -27,18 +27,25 @@ FigureGenerator::FigureGenerator()
     _bug[12] = OFigure();
     _bug[13] = OFigure();
     shuffle();
+    nextFigures[0] = _bug[currentBugIndex++];
+    nextFigures[1] = _bug[currentBugIndex++];
+    nextFigures[2] = _bug[currentBugIndex++];
 }
 
 FigureBase FigureGenerator::getFigure()
 {
-    if(currentBugIndex == _bug.size() - 1){
+    auto ret{nextFigures[0]};
+    std::copy(nextFigures.begin() + 1, nextFigures.end(), nextFigures.begin());
+    nextFigures[nextFigures.size() - 1] = _bug[currentBugIndex++];
+    if (currentBugIndex == _bug.size() - 2)
+    {
         currentBugIndex = 0;
         shuffle();
     }
-    return _bug[currentBugIndex++];
+    return ret;
 }
 
-std::tuple<FigureBase, FigureBase, FigureBase> FigureGenerator::getNextFigures()
+std::array<FigureBase, 3> FigureGenerator::getNextFigures()
 {
-    return std::tuple<FigureBase, FigureBase, FigureBase>();
+    return nextFigures;
 }

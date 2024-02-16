@@ -69,7 +69,7 @@ void FigureController::doCommand(Field &field, Commands command)
     }
 }
 
-std::tuple<FigureBase, FigureBase, FigureBase> FigureController::getNextFigures()
+std::array<FigureBase, 3> FigureController::getNextFigures()
 {
     return figureGenerator.getNextFigures();
 }

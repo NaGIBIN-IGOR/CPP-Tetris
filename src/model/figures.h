@@ -4,151 +4,205 @@
 #include "modelconfig.h"
 #include "figureenum.h"
 
+#include <algorithm>
+
 struct FigureBase
 {
 protected:
     ModelConfig::Figure _figure{DummyPoint, DummyPoint, DummyPoint, DummyPoint};
-    static const ModelConfig::CoordinateType centerX{1};
-    static const ModelConfig::CoordinateType centerY{1};
+    Point center{1, 1};
     FigureEnum filler{EMPTY};
-    Point coordinates{-1,-1};
+    Point coordinates{-1, -1};
 
     void rotatePoint(
-        Point& p,
-        ModelConfig::CoordinateType s
-        ){
-            p.x -= centerX;
-            p.y -= centerY;
-            auto xnew = - p.y * s;
-            auto ynew = p.x * s;
-            p.x = xnew + centerX;
-            p.y = ynew + centerY;
-        }
-public:
+        Point &p,
+        ModelConfig::CoordinateType s)
+    {
+        p.x -= center.x;
+        p.y -= center.y;
+        auto xnew = -p.y * s;
+        auto ynew = p.x * s;
+        p.x = xnew + center.x;
+        p.y = ynew + center.y;
+    }
 
-    Point getCoordinates()const {
+    void correctFigure()
+    { // попровляет фигуру чтобы она соответствовала координатам
+        const static auto minX{[](Point &a, Point b)
+                               {
+                                   if (a.x < b.x)
+                                       return true;
+                                   return false;
+                               }};
+        const static auto minY{[](Point &a, Point b)
+                               {
+                                   if (a.y < b.y)
+                                       return true;
+                                   return false;
+                               }};
+        auto minXPoint = std::min_element(_figure.begin(), _figure.end(), minX);
+        if (minXPoint->x == 1)
+        {
+            for (auto &p : _figure)
+            {
+                p.x -= 1;
+            }
+        }
+        auto minYPoint = std::min_element(_figure.begin(), _figure.end(), minY);
+        if (minYPoint->y == 1)
+        {
+            for (auto &p : _figure)
+            {
+                p.y -= 1;
+            }
+        }
+    }
+
+public:
+    Point getCoordinates() const
+    {
         return coordinates;
     }
-    
-    void setCoordinates(ModelConfig::CoordinateType y, ModelConfig::CoordinateType x){
+
+    void setCoordinates(ModelConfig::CoordinateType y, ModelConfig::CoordinateType x)
+    {
         coordinates.x = x;
         coordinates.y = y;
     }
 
-    int getFiller() const{
+    int getFiller() const
+    {
         return filler;
     }
 
-    virtual void rotateLeft(){
+    virtual void rotateLeft()
+    {
         static const ModelConfig::CoordinateType s = 1;
-        for(auto& p: _figure){
+        for (auto &p : _figure)
+        {
             rotatePoint(p, s);
         }
+        correctFigure();
     }
 
-    virtual void rotateRight(){
+    virtual void rotateRight()
+    {
         static const ModelConfig::CoordinateType s = -1;
-        for(auto& p: _figure){
+        for (auto &p : _figure)
+        {
             rotatePoint(p, s);
         }
+        correctFigure();
     }
 
-    ModelConfig::Figure& getFigure(){
+    ModelConfig::Figure &getFigure()
+    {
         return _figure;
     }
 
-    const ModelConfig::Figure& getFigure()const {
+    const ModelConfig::Figure &getFigure() const
+    {
         return _figure;
     }
 };
 
-
-
-class IFigure: public FigureBase
+class IFigure : public FigureBase
 {
 public:
-    IFigure(){
+    IFigure()
+    {
         filler = I_FIGURE;
-        _figure[0] = Point(0,1);
-        _figure[1] = Point(1,1);
-        _figure[2] = Point(2,1);
-        _figure[3] = Point(3,1);
+        _figure[0] = Point(0, 0);
+        _figure[1] = Point(1, 0);
+        _figure[2] = Point(2, 0);
+        _figure[3] = Point(3, 0);
+        center.x = 1;
+        center.y = 0;
     }
 };
 
-class LFigure: public FigureBase
+class LFigure : public FigureBase
 {
 public:
-    LFigure(){
+    LFigure()
+    {
         filler = L_FIGURE;
-        _figure[0] = Point(0,1);
-        _figure[1] = Point(1,1);
-        _figure[2] = Point(2,1);
-        _figure[3] = Point(0,2);
+        _figure[0] = Point(0, 1);
+        _figure[1] = Point(1, 1);
+        _figure[2] = Point(2, 1);
+        _figure[3] = Point(2, 0);
     }
 };
 
-class JFigure: public FigureBase
+class JFigure : public FigureBase
 {
 public:
-    JFigure(){
+    JFigure()
+    {
         filler = J_FIGURE;
-        _figure[0] = Point(1,0);
-        _figure[1] = Point(1,1);
-        _figure[2] = Point(1,2);
-        _figure[3] = Point(2,2);
+        _figure[0] = Point(0, 0);
+        _figure[1] = Point(0, 1);
+        _figure[2] = Point(1, 1);
+        _figure[3] = Point(2, 1);
     }
 };
 
-class OFigure: public FigureBase
+class OFigure : public FigureBase
 {
 public:
-    OFigure(){
+    OFigure()
+    {
         filler = O_FIGURE;
-        _figure[0] = Point(1,1);
-        _figure[1] = Point(1,2);
-        _figure[2] = Point(2,1);
-        _figure[3] = Point(2,2);
-
+        _figure[0] = Point(0, 0);
+        _figure[1] = Point(0, 1);
+        _figure[2] = Point(1, 0);
+        _figure[3] = Point(1, 1);
     }
-    void rotateLeft() override{}
-    void rotateRight() override{}
+    void rotateLeft() override {}
+    void rotateRight() override {}
 };
 
-class TFigure: public FigureBase
+class TFigure : public FigureBase
 {
 public:
-    TFigure(){
+    TFigure()
+    {
         filler = T_FIGURE;
-        _figure[0] = Point(0,1);
-        _figure[1] = Point(1,1);
-        _figure[2] = Point(2,1);
-        _figure[3] = Point(1,2);
+        _figure[0] = Point(0, 1);
+        _figure[1] = Point(1, 1);
+        _figure[2] = Point(2, 1);
+        _figure[3] = Point(1, 0);
     }
 };
 
-class SFigure: public FigureBase
+class SFigure : public FigureBase
 {
 public:
-    SFigure(){
+    SFigure()
+    {
         filler = S_FIGURE;
-        _figure[0] = Point(0,2);
-        _figure[1] = Point(1,2);
-        _figure[2] = Point(1,1);
-        _figure[3] = Point(2,1);
+        _figure[0] = Point(0, 1);
+        _figure[1] = Point(1, 1);
+        _figure[2] = Point(1, 0);
+        _figure[3] = Point(2, 0);
+        center.x = 1;
+        center.y = 0;
     }
 };
 
-class ZFigure: public FigureBase
+class ZFigure : public FigureBase
 {
 public:
-    ZFigure(){
+    ZFigure()
+    {
         filler = Z_FIGURE;
-        _figure[0] = Point(0,1);
-        _figure[1] = Point(1,1);
-        _figure[2] = Point(1,2);
-        _figure[3] = Point(2,2);
+        _figure[0] = Point(0, 0);
+        _figure[1] = Point(1, 0);
+        _figure[2] = Point(1, 1);
+        _figure[3] = Point(2, 1);
+        center.x = 1;
+        center.y = 0;
     }
 };
 
-#endif //FIGURES_H
+#endif // FIGURES_H

@@ -44,7 +44,7 @@ FigureBase GameController::getCurrentFigure()
     return figureController->getCurrentFigure();
 }
 
-std::tuple<FigureBase, FigureBase, FigureBase> GameController::getNextFigures()
+std::array<FigureBase, 3> GameController::getNextFigures()
 {
     return figureController->getNextFigures();
 }

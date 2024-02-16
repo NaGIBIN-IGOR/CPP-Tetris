@@ -17,8 +17,9 @@ void SFMLView::colorBlock(sf::RectangleShape &block, ModelConfig::ModelType mode
     static const auto TFigureBlockColor{sf::Color(184, 0, 224, 255)};
     static const auto SFigureBlockColor{sf::Color(0, 227, 64, 255)};
     static const auto ZFigureBlockColor{sf::Color(215, 0, 0, 255)};
+    static const auto OutlineColor{sf::Color(25, 25, 25, 255)};
 
-    block.setOutlineColor(sf::Color(25, 25, 25, 255));
+    block.setOutlineColor(OutlineColor);
     block.setOutlineThickness(0.5);
 
     switch (static_cast<FigureEnum>(modelBlock))
@@ -102,6 +103,23 @@ void SFMLView::renderGame(const GameViewInfo &gameViewInfo)
             }
             window.draw(block);
         }
+    }
+
+    auto &nextFigures{gameViewInfo.nextFigures};
+
+    unsigned currentY{1};
+    for (auto &fig : nextFigures)
+    {
+        for (auto &p : fig.getFigure())
+        {
+            sf::RectangleShape block(sf::Vector2f(blockSize, blockSize));
+            block.setPosition(
+                (ModelConfig::FIELD_WIDE + 1 + p.x) * blockSize,
+                (currentY + p.y)*blockSize);            
+            colorBlock(block, fig.getFiller());
+            window.draw(block);
+        }
+        currentY += fig.getFigure().size();
     }
 
     window.display();

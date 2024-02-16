@@ -65,7 +65,11 @@ void Game::scoreIncrease(unsigned blocksRemoved)
     score += blocksRemoved * 5;
 }
 
-Game::Game() : window(sf::VideoMode(300, 600), "Tetris")
+Game::Game() : 
+    window(sf::VideoMode(ModelConfig::FIELD_WIDE * SFMLView::blockSize 
+        + SFMLView::blockSize  
+        + 4 * SFMLView::blockSize ,
+        ModelConfig::FIELD_HEIGHT * SFMLView::blockSize), "Tetris")
 {
     views.push_back(std::make_unique<SFMLView>(window));
     // views.push_back(std::make_unique<ConsoleView>());

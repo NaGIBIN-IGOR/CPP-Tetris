@@ -23,7 +23,7 @@ public:
     void doCommand(Field& field, Commands command);
     bool isSwapNeeded(Field& field);
     FigureBase getCurrentFigure();
-    std::tuple<FigureBase, FigureBase, FigureBase> getNextFigures();
+    std::array<FigureBase, 3> getNextFigures();
 };
 
 #endif //FIGURE_CONTROLLER_H
