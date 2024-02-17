@@ -6,20 +6,20 @@
 #include <array>
 
 bool FigureMover::isValidCoordinate(
-        ModelConfig::CoordinateType maxX,
-        ModelConfig::CoordinateType maxY,
-        ModelConfig::CoordinateType baseX,
-        ModelConfig::CoordinateType baseY,
-        ModelConfig::CoordinateType offsetX,
-        ModelConfig::CoordinateType offsetY
-    )
+    ModelConfig::CoordinateType maxX,
+    ModelConfig::CoordinateType maxY,
+    ModelConfig::CoordinateType baseX,
+    ModelConfig::CoordinateType baseY,
+    ModelConfig::CoordinateType offsetX,
+    ModelConfig::CoordinateType offsetY)
 {
-    if(
+    if (
         baseX < 0 ||
         baseY < 0 ||
+        baseY + offsetY < 0 ||
         baseY + offsetY >= maxY ||
-        baseX + offsetX >= maxX 
-        ) return false;
+        baseX + offsetX >= maxX)
+        return false;
     return true;
 }
 
@@ -138,15 +138,49 @@ void FigureMover::dropFigure(Field &field_, FigureBase &figure_)
 void FigureMover::rotateFigureLeft(Field &field_, FigureBase &figure_)
 {
     figure_.rotateLeft();
-    if(!canFigureBeSet(field_, figure_)){
-        figure_.rotateRight();
+    if (canFigureBeSet(field_, figure_))
+        return;
+    auto coordsFig{figure_.getCoordinates()};
+
+    if (coordsFig.y <= 0 && canFigureBeSet(field_, figure_, coordsFig.x, 1))
+    {
+        figure_.setCoordinates(1, coordsFig.x);
+        return;
     }
+    else if (canFigureBeSet(field_, figure_, coordsFig.x - 1, coordsFig.y))
+    {
+        figure_.setCoordinates(coordsFig.y, coordsFig.x - 1);
+        return;
+    }
+    else if (canFigureBeSet(field_, figure_, coordsFig.x + 1, coordsFig.y))
+    {
+        figure_.setCoordinates(coordsFig.y, coordsFig.x + 1);
+        return;
+    }
+    figure_.rotateRight();
 }
 
 void FigureMover::rotateFigureRight(Field &field_, FigureBase &figure_)
 {
     figure_.rotateRight();
-    if(!canFigureBeSet(field_, figure_)){
-        figure_.rotateLeft();
+    if (canFigureBeSet(field_, figure_))
+        return;
+    auto coordsFig{figure_.getCoordinates()};
+
+    if (coordsFig.y <= 0 && canFigureBeSet(field_, figure_, coordsFig.x, 1))
+    {
+        figure_.setCoordinates(1, coordsFig.x);
+        return;
     }
+    else if (canFigureBeSet(field_, figure_, coordsFig.x - 1, coordsFig.y))
+    {
+        figure_.setCoordinates(coordsFig.y, coordsFig.x - 1);
+        return;
+    }
+    else if (canFigureBeSet(field_, figure_, coordsFig.x + 1, coordsFig.y))
+    {
+        figure_.setCoordinates(coordsFig.y, coordsFig.x + 1);
+        return;
+    }
+    figure_.rotateLeft();
 }

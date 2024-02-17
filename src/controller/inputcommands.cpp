@@ -4,7 +4,7 @@
 
 #include <SFML/Window.hpp>
 
-Commands InputCommands::getCommand()
+Commands InputCommands::getCommand(sf::Event& event)
 {
     using namespace sf;
     if(Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A)){

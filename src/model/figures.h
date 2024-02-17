@@ -48,14 +48,14 @@ protected:
                 p.x -= 1;
             }
         }
-        auto minYPoint = std::min_element(_figure.begin(), _figure.end(), minY);
-        if (minYPoint->y == 1)
-        {
-            for (auto &p : _figure)
-            {
-                p.y -= 1;
-            }
-        }
+        // auto minYPoint = std::min_element(_figure.begin(), _figure.end(), minY);
+        // if (minYPoint->y == 1)
+        // {
+        //     for (auto &p : _figure)
+        //     {
+        //         p.y -= 1;
+        //     }
+        // }
     }
 
 public:

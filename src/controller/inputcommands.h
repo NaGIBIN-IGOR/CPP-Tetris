@@ -2,11 +2,12 @@
 #define INPUT_COMMANDS_H
 
 #include "figurecommands.h"
+#include <SFML/Window/Event.hpp>
 
 class InputCommands
 {
 public:
-    static Commands getCommand();
+    static Commands getCommand(sf::Event& event);
 };
 
 

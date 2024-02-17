@@ -6,6 +6,7 @@
 
 #include <thread>
 #include <SFML/Window/Event.hpp>
+
 void Game::_start()
 {
     while (window.isOpen())
@@ -13,7 +14,8 @@ void Game::_start()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed){
+            if (event.type == sf::Event::Closed)
+            {
                 window.close();
             }
         }
@@ -25,17 +27,22 @@ void Game::_start()
         const auto start = std::chrono::steady_clock::now();
         while (std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::steady_clock::now() - start) <= waitDuration)
         {
-            auto com{InputCommands::getCommand()};
+            window.pollEvent(event);
+            if (event.type == sf::Event::Closed) window.close();
+            if (event.type != sf::Event::KeyPressed) continue;            
+            auto com{InputCommands::getCommand(event)};
             if (com == NO_COMMAND)
             {
                 continue;
             }
-            else if(com == DROP){
+            else if (com == DROP)
+            {
                 gameController.doCommand(com);
                 std::this_thread::sleep_for(std::chrono::milliseconds(150));
                 break;
             }
-            else{
+            else
+            {
                 gameController.doCommand(com);
             }
             allRender();
@@ -65,12 +72,11 @@ void Game::scoreIncrease(unsigned blocksRemoved)
     score += blocksRemoved * 5;
 }
 
-Game::Game() : 
-    window(sf::VideoMode(ModelConfig::FIELD_WIDE * SFMLView::blockSize 
-        + SFMLView::blockSize  
-        + 4 * SFMLView::blockSize ,
-        ModelConfig::FIELD_HEIGHT * SFMLView::blockSize), "Tetris")
+Game::Game() : window(sf::VideoMode(ModelConfig::FIELD_WIDE * SFMLView::blockSize + SFMLView::blockSize + 4 * SFMLView::blockSize,
+                                    (ModelConfig::FIELD_HEIGHT) * SFMLView::blockSize),
+                      "Tetris")
 {
+    window.setKeyRepeatEnabled(false);
     views.push_back(std::make_unique<SFMLView>(window));
     // views.push_back(std::make_unique<ConsoleView>());
 }
