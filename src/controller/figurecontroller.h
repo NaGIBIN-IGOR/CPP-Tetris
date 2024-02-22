@@ -24,6 +24,9 @@ public:
     bool isSwapNeeded(Field& field);
     FigureBase getCurrentFigure();
     std::array<FigureBase, 3> getNextFigures();
+
+    ModelConfig::CoordinateType getShadowCoordinate(Field& field);
+
 };
 
 #endif //FIGURE_CONTROLLER_H

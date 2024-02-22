@@ -74,6 +74,12 @@ std::array<FigureBase, 3> FigureController::getNextFigures()
     return figureGenerator.getNextFigures();
 }
 
+ModelConfig::CoordinateType FigureController::getShadowCoordinate(Field &field)
+{
+    return FigureMover::getDropYCoordinate(field, currentFigure);
+}
+
+
 FigureBase FigureController::getCurrentFigure()
 {
     return currentFigure;

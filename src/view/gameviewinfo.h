@@ -10,7 +10,9 @@ struct GameViewInfo
     const Field& field;
     std::array<FigureBase, 3> nextFigures;
     FigureBase currentFigure;
+    ModelConfig::CoordinateType shadowCoordinate;
     unsigned score;
+    unsigned level;
 };
 
 

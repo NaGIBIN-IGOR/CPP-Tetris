@@ -21,6 +21,9 @@ public:
     Field& getField();
     FigureBase getCurrentFigure();
     std::array<FigureBase, 3> getNextFigures();
+
+    ModelConfig::CoordinateType getShadowCoordinate();
+
 };
 
 #endif //GAME_CONTROLLER_H

@@ -16,6 +16,8 @@ file(GLOB_RECURSE SOURCE_FILES
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+target_compile_definitions(${PROJECT_NAME} PUBLIC DATA_FOLDER_PATH="${CMAKE_CURRENT_SOURCE_DIR}/data")
+
 target_include_directories(${PROJECT_NAME} PUBLIC /usr/include/freetype2)
 
 target_link_libraries(${PROJECT_NAME}

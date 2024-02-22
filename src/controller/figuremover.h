@@ -33,6 +33,7 @@ public:
     static void dropFigure(Field &field_, FigureBase &figure_);
     static void rotateFigureLeft(Field &field_, FigureBase &figure_);
     static void rotateFigureRight(Field &field_, FigureBase &figure_);
+    static ModelConfig::CoordinateType getDropYCoordinate(Field &field_, FigureBase &figure_);
 };
 
 

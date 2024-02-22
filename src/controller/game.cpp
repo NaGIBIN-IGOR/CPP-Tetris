@@ -28,8 +28,10 @@ void Game::_start()
         while (std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::steady_clock::now() - start) <= waitDuration)
         {
             window.pollEvent(event);
-            if (event.type == sf::Event::Closed) window.close();
-            if (event.type != sf::Event::KeyPressed) continue;            
+            if (event.type == sf::Event::Closed)
+                window.close();
+            if (event.type != sf::Event::KeyPressed)
+                continue;
             auto com{InputCommands::getCommand(event)};
             if (com == NO_COMMAND)
             {
@@ -48,7 +50,7 @@ void Game::_start()
             allRender();
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
-        auto blocksRemoved = gameController.turnEnd();
+        scoreIncrease(gameController.turnEnd());
         allRender();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -60,7 +62,8 @@ void Game::allRender()
         .field = gameController.getField(),
         .nextFigures = gameController.getNextFigures(),
         .currentFigure = gameController.getCurrentFigure(),
-        .score = 0};
+        .shadowCoordinate = gameController.getShadowCoordinate(),
+        .score = this->score};
     for (auto &view : views)
     {
         view->renderGame(info);
@@ -69,11 +72,10 @@ void Game::allRender()
 
 void Game::scoreIncrease(unsigned blocksRemoved)
 {
-    score += blocksRemoved * 5;
+    score += blocksRemoved * 10 * (blocksRemoved / ModelConfig::FIELD_WIDE);
 }
-
 Game::Game() : window(sf::VideoMode(ModelConfig::FIELD_WIDE * SFMLView::blockSize + SFMLView::blockSize + 4 * SFMLView::blockSize,
-                                    (ModelConfig::FIELD_HEIGHT) * SFMLView::blockSize),
+                                    (ModelConfig::FIELD_HEIGHT)*SFMLView::blockSize),
                       "Tetris")
 {
     window.setKeyRepeatEnabled(false);

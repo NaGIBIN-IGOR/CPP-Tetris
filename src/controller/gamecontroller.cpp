@@ -48,3 +48,8 @@ std::array<FigureBase, 3> GameController::getNextFigures()
 {
     return figureController->getNextFigures();
 }
+
+ModelConfig::CoordinateType GameController::getShadowCoordinate()
+{
+    return figureController->getShadowCoordinate(fieldController->getField());
+}

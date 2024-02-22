@@ -126,13 +126,8 @@ void FigureMover::moveFigureDown(Field &field_, FigureBase &figure_)
 
 void FigureMover::dropFigure(Field &field_, FigureBase &figure_)
 {
-    auto currentPosition{figure_.getCoordinates()};
-    auto newY{static_cast<ModelConfig::CoordinateType>(currentPosition.y + 1)};
-    while (canFigureBeSet(field_, figure_, currentPosition.x, newY))
-    {
-        ++newY;
-    }
-    figure_.setCoordinates(newY - 1, currentPosition.x);
+    auto newY{getDropYCoordinate(field_, figure_)};
+    figure_.setCoordinates(newY, figure_.getCoordinates().x);
 }
 
 void FigureMover::rotateFigureLeft(Field &field_, FigureBase &figure_)
@@ -183,4 +178,25 @@ void FigureMover::rotateFigureRight(Field &field_, FigureBase &figure_)
         return;
     }
     figure_.rotateLeft();
+}
+
+ModelConfig::CoordinateType FigureMover::getDropYCoordinate(Field &field_, FigureBase &figure_)
+{
+    auto currentPosition{figure_.getCoordinates()};
+    ModelConfig::CoordinateType minY{};
+    ModelConfig::CoordinateType maxY{ModelConfig::FIELD_HEIGHT - 1};
+    while (minY <= maxY)
+    {
+        ModelConfig::CoordinateType midY{(minY + maxY) / 2};
+
+        if (canFigureBeSet(field_, figure_, currentPosition.x, midY))
+        {
+            minY = midY + 1;
+        }
+        else
+        {
+            maxY = midY - 1;
+        }
+    }
+    return maxY;
 }
